@@ -1,0 +1,36 @@
+﻿@model TalabaMVC.Models.LoginDto
+
+
+
+
+<div class="row" style="font-size: 20px; display: flex; justify-content: center; vertical-align:central; height:100%; margin:20%;">
+    <div class="col-md-4">
+        @using (Html.BeginForm("CheckUser", "Account", FormMethod.Post))
+        {
+            <form asp-action="Login">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Username" class="control-label"></label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group" >
+                    <input type="submit" style="width: 100%; margin-top: 20px; margin-bottom:20px; justify-content:center;" value="Login" class="btn btn-primary" />
+                </div>
+                    
+            </form>
+            }
+    </div>
+    @using (Html.BeginForm("ReturnRegister", "Account", FormMethod.Post))
+    {
+        <div class="form-group" style="display: flex; justify-content: center;">
+            <input type="submit" style=" justify-content:center; background: white; padding: 0px; border: 0px solid; color: dodgerblue;" value="Register" class="btn btn-primary" />
+        </div>
+    }
+</div>
+    

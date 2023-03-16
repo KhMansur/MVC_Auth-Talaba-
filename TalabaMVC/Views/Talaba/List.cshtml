@@ -1,0 +1,68 @@
+﻿@model IEnumerable<TalabaMVC.Models.Talaba>
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewBag.UserName </h1>
+
+<h1>List </h1>
+<p>
+    <a >
+        @Html.ActionLink($"{@ViewBag.Code}", "Create", new {token=ViewBag.Token})
+        </a>
+</p>
+    
+
+@using (Html.BeginForm("List", "Talaba", FormMethod.Get))
+{
+    <p>
+        Name: @Html.TextBox("searchString", ViewBag.SearchString as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Name", "List", new{ sortOrder = ViewBag.sortOrder, searchString = ViewBag.searchString, token=ViewBag.Token})
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Faculty)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Faculty)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@for (int i = 1; i <= ViewBag.Pages; i++)
+{
+    <a asp-action="List" style="margin: 10px;">
+        @Html.ActionLink($"{@i}", "List", new {searchString = ViewBag.searchString, currentPage = i, token=ViewBag.Token})
+    </a>
+}
