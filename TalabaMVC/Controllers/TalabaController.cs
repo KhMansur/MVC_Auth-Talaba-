@@ -23,14 +23,19 @@ namespace TalabaMVC.Controllers
             ViewBag.Token = token;
             var validation = authManager.ValidateToken(token).Result;
 
+
             if (validation.Status == "Valid" && validation.Roles.Contains("Admin"))
             {
+                UserDto apiUser = authManager.GetUser(token).GetAwaiter().GetResult();
+                ViewBag.UserName = apiUser.Username;
                 ViewBag.CreateText = "Create";
                 ViewBag.EditText = "Edit";
                 ViewBag.DeleteText = "Delete";
             }
             if (validation.Status == "Valid" && (validation.Roles.Contains("Admin") || validation.Roles.Contains("User")) )
             {
+                UserDto apiUser = authManager.GetUser(token).GetAwaiter().GetResult();
+                ViewBag.UserName = apiUser.Username;
                 ViewBag.SearchString = searchString;
                 ViewBag.SortOrder = sortOrder != "asc" ? "asc" : "desc";
                 if (currentPage == 0) currentPage = 1;

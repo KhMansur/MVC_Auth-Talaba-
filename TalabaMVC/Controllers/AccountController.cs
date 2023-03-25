@@ -20,7 +20,7 @@ namespace TalabaMVC.Controllers
 
         public IActionResult CheckUser(LoginDto dto)
         {
-            if (authManager.ValidateUser(dto).Result)
+            if (authManager.ValidateUser(dto).GetAwaiter().GetResult())
             {
                 var user = authManager.GetUserWithToken(dto.Username).Result;
                 return RedirectToAction("List", "Talaba", new { token = user.Token});

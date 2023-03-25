@@ -162,6 +162,43 @@ namespace TalabaMVC.Services
             }
         }
 
+        public async Task<UserDto> GetUser(string token)
+        {
+            if (token == null)
+                return null;
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("Jwt").GetSection("Key").Value);
+            try
+            {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                    ClockSkew = TimeSpan.Zero
+                }, out SecurityToken validatedToken);
+
+                var jwtToken = (JwtSecurityToken)validatedToken;
+                var userName = jwtToken.Claims.FirstOrDefault().Value.ToString();
+                if (userName != null)
+                {
+                    return await GetUserWithToken(userName);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch
+            {
+                // return null if validation fails
+                return null;
+            }
+        }
+
         public async Task<string> AddUser(RegisterUserDto dto, string role)
         {
             var userExists = await _userManager.FindByNameAsync(dto.Username);

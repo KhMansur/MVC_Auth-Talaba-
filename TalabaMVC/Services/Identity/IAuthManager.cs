@@ -14,5 +14,7 @@ namespace TalabaMVC.Services
         Task<Response> ValidateToken(string token);
 
         Task<string> AddUser(RegisterUserDto dto, string role);
+
+        Task<UserDto> GetUser(string token);
     }
 }
