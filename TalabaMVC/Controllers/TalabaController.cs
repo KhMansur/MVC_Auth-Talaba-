@@ -18,13 +18,17 @@ namespace TalabaMVC.Controllers
             this.authManager = authManager;
         }
 
-        public IActionResult List(string token, string code,  string searchString, string sortOrder, int currentPage)
+        public IActionResult List(string token, string searchString, string sortOrder, int currentPage)
         {
             ViewBag.Token = token;
             var validation = authManager.ValidateToken(token).Result;
 
             if (validation.Status == "Valid" && validation.Roles.Contains("Admin"))
-                ViewBag.Code = code;
+            {
+                ViewBag.CreateText = "Create";
+                ViewBag.EditText = "Edit";
+                ViewBag.DeleteText = "Delete";
+            }
             if (validation.Status == "Valid" && (validation.Roles.Contains("Admin") || validation.Roles.Contains("User")) )
             {
                 ViewBag.SearchString = searchString;

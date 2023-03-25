@@ -23,8 +23,7 @@ namespace TalabaMVC.Controllers
             if (authManager.ValidateUser(dto).Result)
             {
                 var user = authManager.GetUserWithToken(dto.Username).Result;
-                string code = "Create New";
-                return RedirectToAction("List", "Talaba", new { token = user.Token, code = code });
+                return RedirectToAction("List", "Talaba", new { token = user.Token});
             }
             return RedirectToAction("Login");
         }
@@ -41,7 +40,7 @@ namespace TalabaMVC.Controllers
 
         public async Task<IActionResult> RegisterUser(RegisterUserDto dto)
         {
-            await authManager.AddUser(dto);
+            await authManager.AddUser(dto, "User");
             return RedirectToAction("Login");
         }
     }

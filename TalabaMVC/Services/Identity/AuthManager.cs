@@ -162,11 +162,12 @@ namespace TalabaMVC.Services
             }
         }
 
-        public async Task<string> AddUser(RegisterUserDto dto)
+        public async Task<string> AddUser(RegisterUserDto dto, string role)
         {
             var userExists = await _userManager.FindByNameAsync(dto.Username);
             if (userExists != null)
                 return "User already exists!";
+            
             ApiUser user = new ApiUser()
             {
                 FirstName = dto.Firstname,
@@ -180,7 +181,7 @@ namespace TalabaMVC.Services
             var userr = await _userManager.FindByNameAsync(dto.Username);
             if (result.Succeeded)
             {
-                var createRole = await _userManager.AddToRoleAsync(userr, "User");
+                var createRole = await _userManager.AddToRoleAsync(userr, role);
                 if (!createRole.Succeeded)
                 {
                     return "User creation failed! Please check user details and try again.";
