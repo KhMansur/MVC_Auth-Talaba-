@@ -15,6 +15,7 @@ namespace TalabaMVC.Controllers
 
         public IActionResult Login()
         {
+            TempData["token"] = null;
             return View();
         }
 
