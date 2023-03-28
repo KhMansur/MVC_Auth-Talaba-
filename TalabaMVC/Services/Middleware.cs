@@ -12,7 +12,7 @@ namespace TalabaMVC.Services
     {
         public static void AddServices(this IServiceCollection services)
         {
-            services.AddTransient<IAuthManager, AuthManager>();
+            services.AddScoped<IAuthManager, AuthManager>();
         }
 
         public static void AddConfigurationIdentity(this IServiceCollection services)
